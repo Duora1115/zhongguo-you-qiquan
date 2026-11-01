@@ -1,0 +1,165 @@
+@import "@fontsource/ibm-plex-sans/400.css";
+@import "@fontsource/ibm-plex-sans/500.css";
+@import "@fontsource/ibm-plex-sans/600.css";
+@import "@fontsource/ibm-plex-sans/700.css";
+@import "@fontsource/noto-sans-sc/400.css";
+@import "@fontsource/noto-sans-sc/500.css";
+@import "@fontsource/noto-sans-sc/700.css";
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #12110e;
+  --color-surface: #1c1a16;
+  --color-surface-2: #27241e;
+  --color-fg: #f4efe6;
+  --color-muted: #a89c8c;
+  --color-line: #3c362c;
+  --color-up: #e24b45;
+  --color-down: #3dba78;
+  --color-gold: #e0a45c;
+  --color-info: #6aa7ff;
+  --font-sans: "IBM Plex Sans", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", ui-sans-serif, sans-serif;
+  --radius-lg: 0.875rem;
+}
+
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+
+  html {
+    background: var(--color-bg);
+    color: var(--color-fg);
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: var(--font-sans);
+    background: var(--color-bg);
+    color: var(--color-fg);
+    font-variant-numeric: tabular-nums;
+  }
+
+  ::selection {
+    background: var(--color-gold);
+    color: var(--color-bg);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 2px;
+  }
+
+  input[type="range"] {
+    accent-color: var(--color-gold);
+    height: 1.75rem;
+    touch-action: none;
+  }
+}
+
+.fold {
+  display: grid;
+  grid-template-rows: 0fr;
+  min-height: 0;
+  overflow: hidden;
+  transition: grid-template-rows 220ms cubic-bezier(0.2, 0, 0, 1);
+}
+
+.fold.open {
+  grid-template-rows: 1fr;
+}
+
+.fold > .fold-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+@media (min-width: 64rem) {
+  .fold {
+    grid-template-rows: 1fr;
+    transition: none;
+  }
+}
+
+.chain-scroll {
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.pay-drawer {
+  background: var(--color-surface);
+  box-shadow: 0 -16px 40px rgba(0, 0, 0, 0.4);
+}
+
+.drawer-scroll {
+  scrollbar-gutter: stable;
+}
+
+@media (max-width: 63.999rem) {
+  .pay-drawer {
+    position: fixed;
+    z-index: 30;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    height: 78dvh;
+    flex-direction: column;
+    border-radius: 1.25rem 1.25rem 0 0;
+    transform: translate3d(0, calc(100% - var(--drawer-peek, calc(5.5rem + env(safe-area-inset-bottom, 0px)))), 0);
+    transition: transform 480ms cubic-bezier(0.32, 0.72, 0, 1);
+    will-change: transform;
+  }
+
+  .pay-drawer.open {
+    transform: translate3d(0, 0, 0);
+  }
+
+  .pay-drawer.dragging {
+    transition: none;
+  }
+
+  .pay-drawer .drawer-body,
+  .pay-drawer .drawer-body > .fold-inner {
+    display: flex;
+    min-height: 0;
+    max-height: none;
+    flex: 1 1 auto;
+    flex-direction: column;
+    overflow: hidden;
+    grid-template-rows: none;
+  }
+
+  .pay-drawer .curve,
+  .pay-drawer .curve > .fold-inner {
+    display: block;
+    flex: 0 0 auto;
+    height: auto;
+    min-height: max-content;
+    max-height: none;
+    overflow: visible;
+    grid-template-rows: none;
+  }
+}
+
+@media (min-width: 64rem) {
+  .pay-drawer {
+    position: static;
+    height: auto;
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

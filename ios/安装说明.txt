@@ -1,0 +1,10 @@
+中国有期权 iOS 版，版本 1.0.7，和安卓用的是同一套页面。
+
+苹果安装包必须在 Mac 上用你自己的 Apple ID 签名，这里签不了，所以没有直接装到 iPhone 的文件。
+
+1. 在 Mac 上安装 Xcode。
+2. 打开本目录里的 Qiheng.xcodeproj。
+3. 点 Qiheng 目标，Signing 里选你的 Apple ID。
+4. 用数据线连上 iPhone，顶部设备选这台手机，点运行。
+
+图标是「中国有期权」。页面改过之后，把新的网页资源放到 App/www（或旁边的 android 资源目录），再在 Xcode 里运行一次。
